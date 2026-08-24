@@ -7,8 +7,8 @@ Guidelines for AI agents working in this repository.
 This repository contains the **startup** plugin for AI agents. The plugin namespace is `startup`, and it includes multiple skills organized in 3 categories: Design, Analyze, and Build (4 skills total).
 
 - **Name**: Startup Skills
-- **GitHub**: [ferdinandobons/startup-skill](https://github.com/ferdinandobons/startup-skill)
-- **Creator**: Ferdinando Bons
+- **GitHub**: [dharshith8/startup-skill](https://github.com/dharshith8/startup-skill)
+- **Creator**: dharshith8
 - **License**: MIT
 
 ## Skill Taxonomy

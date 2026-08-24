@@ -1,8 +1,8 @@
 # Startup Skill
 
-[![Version](https://img.shields.io/github/v/release/ferdinandobons/startup-skill?label=version)](https://github.com/ferdinandobons/startup-skill/releases)
+[![Version](https://img.shields.io/github/v/release/dharshith8/startup-skill?label=version)](https://github.com/dharshith8/startup-skill/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/ferdinandobons/startup-skill)](https://github.com/ferdinandobons/startup-skill/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/dharshith8/startup-skill)](https://github.com/dharshith8/startup-skill/stargazers)
 
 <p align="center">
   <img src="assets/banner.png" alt="Startup Skill — From startup idea to validated strategy. In one afternoon. Radically honest. Completely free." width="100%" />
@@ -14,9 +14,9 @@ Works with [Claude Code](https://claude.ai/claude-code) and any agent that suppo
 
 **Website:** [startupskill.me](https://startupskill.me)
 
-**Latest release:** [v1.10.0](https://github.com/ferdinandobons/startup-skill/releases/tag/v1.10.0)
+**Latest release:** [v1.10.0](https://github.com/dharshith8/startup-skill/releases/tag/v1.10.0)
 
-**Contributions welcome!** [Open a PR](#contributing) or [an issue](https://github.com/ferdinandobons/startup-skill/issues).
+**Contributions welcome!** [Open a PR](#contributing) or [an issue](https://github.com/dharshith8/startup-skill/issues).
 
 ## Available Skills
 
@@ -68,14 +68,14 @@ Or invoke directly: `/startup:startup-design`, `/startup:startup-competitors`, `
 ### Claude Code Plugin (Recommended)
 
 ```bash
-claude plugin marketplace add ferdinandobons/startup-skill
+claude plugin marketplace add dharshith8/startup-skill
 claude plugin install startup@startup-skill
 ```
 
 <details>
 <summary><strong>Claude.ai (Web App)</strong></summary>
 
-Download `.skill` files from the [Releases page](https://github.com/ferdinandobons/startup-skill/releases), then upload in **Settings → Skills**.
+Download `.skill` files from the [Releases page](https://github.com/dharshith8/startup-skill/releases), then upload in **Settings → Skills**.
 
 </details>
 
@@ -84,20 +84,20 @@ Download `.skill` files from the [Releases page](https://github.com/ferdinandobo
 
 ```bash
 # CLI Install
-npx skills add ferdinandobons/startup-skill
+npx skills add dharshith8/startup-skill
 
 # Clone and copy
-git clone https://github.com/ferdinandobons/startup-skill.git
+git clone https://github.com/dharshith8/startup-skill.git
 cp -r startup-skill/startup-design .agents/skills/
 cp -r startup-skill/startup-competitors .agents/skills/
 cp -r startup-skill/startup-positioning .agents/skills/
 cp -r startup-skill/startup-pitch .agents/skills/
 
 # Git submodule
-git submodule add https://github.com/ferdinandobons/startup-skill.git .agents/startup-skill
+git submodule add https://github.com/dharshith8/startup-skill.git .agents/startup-skill
 
 # SkillKit (works with Claude Code, Cursor, Copilot, etc.)
-npx skillkit install ferdinandobons/startup-skill
+npx skillkit install dharshith8/startup-skill
 ```
 
 </details>
@@ -114,17 +114,17 @@ claude plugin update startup@startup-skill
 > ```bash
 > claude plugin uninstall startup@startup-skill
 > claude plugin marketplace remove startup-skill
-> claude plugin marketplace add ferdinandobons/startup-skill
+> claude plugin marketplace add dharshith8/startup-skill
 > claude plugin install startup@startup-skill
 > ```
 
-**Claude.ai:** Download the latest `.skill` files from the [Releases page](https://github.com/ferdinandobons/startup-skill/releases) and re-upload in **Settings → Skills**.
+**Claude.ai:** Download the latest `.skill` files from the [Releases page](https://github.com/dharshith8/startup-skill/releases) and re-upload in **Settings → Skills**.
 
 **CLI / SkillKit:** Re-run the install command — it overwrites the previous version:
 ```bash
-npx skills add ferdinandobons/startup-skill
+npx skills add dharshith8/startup-skill
 # or
-npx skillkit install ferdinandobons/startup-skill
+npx skillkit install dharshith8/startup-skill
 ```
 
 **Git Submodule:**
