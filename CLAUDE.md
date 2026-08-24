@@ -4,7 +4,10 @@ Guidelines for AI agents working in this repository.
 
 ## Repository Overview
 
-This repository contains the **startup** plugin for AI agents. The plugin namespace is `startup`, and it includes multiple skills organized in 3 categories: Design, Analyze, and Build (4 skills total).
+This repository contains the **startup** plugin for AI agents. The plugin namespace is `startup`, and it includes 54 skills across two groups:
+
+- **Flagship skills** (4): deep, multi-phase research workflows — `startup-design`, `startup-competitors`, `startup-positioning`, `startup-pitch`. Organized in 3 categories: Design, Analyze, Build.
+- **Founder Stack skills** (50): single-purpose tools covering the rest of what a founder does day to day, adapted from various open-source Claude Skills authors into a consistent format. Organized in 9 categories plus one foundation skill (`startup-context`). See [README.md](README.md) for the full skill table and per-skill attribution.
 
 - **Name**: Startup Skills
 - **GitHub**: [dharshith8/startup-skill](https://github.com/dharshith8/startup-skill)
@@ -13,11 +16,30 @@ This repository contains the **startup** plugin for AI agents. The plugin namesp
 
 ## Skill Taxonomy
 
+### Flagship Skills
+
 | Category | Purpose | Skills |
 |----------|---------|--------|
 | **Design** | Full process, idea to validated plan | `startup-design` |
 | **Analyze** | Deep standalone analysis of one area | `startup-competitors`, `startup-positioning` |
 | **Build** | Post-validation execution tools | `startup-pitch` |
+
+### Founder Stack Skills
+
+| Category | Skills |
+|----------|--------|
+| **Foundation** | `startup-context` (read by all other Founder Stack skills first) |
+| **Fundraising** | `pitch-deck`, `investor-research`, `data-room`, `fundraising-email`, `accelerator-application` |
+| **Sales & BD** | `cold-outreach`, `sales-script`, `proposal-generation`, `lead-scoring`, `partnership-outreach` |
+| **Product & Strategy** | `prd-writing`, `user-research-synthesis`, `roadmap-planning`, `mvp-scoping`, `competitive-analysis`, `market-research`, `review-mining`, `daily-product-digest`, `competitor-monitoring` |
+| **Recruiting & Team** | `job-description`, `interview-kit`, `sourcing-outreach`, `employer-brand` |
+| **Engineering** | `architecture-design`, `code-review`, `cicd-setup`, `tech-stack-eval`, `security-review` |
+| **Legal & Compliance** | `privacy-policy`, `terms-of-service`, `contract-review`, `soc2-prep` |
+| **Operations** | `process-docs`, `board-update` |
+| **Customer Success** | `onboarding-flow`, `support-docs`, `feedback-synthesis`, `churn-analysis`, `sentiment-monitoring` |
+| **Marketing & Growth** | `landing-page`, `content-strategy`, `seo-technical`, `email-marketing`, `social-content`, `launch-strategy`, `founder-thought-leadership`, `community-discovery`, `event-hosting`, `earned-media-outreach` |
+
+Note: `competitive-analysis` (Founder Stack) and `startup-competitors` (Flagship) overlap in purpose — the former is a lightweight single-pass competitor scan, the latter is the deep multi-wave research workflow. Same relationship between `market-research` and `startup-design`/`startup-positioning`, and between `pitch-deck` and `startup-pitch`. Prefer the Flagship skill for a from-scratch deep dive; prefer the Founder Stack skill for a quick, standalone pass.
 
 ## Repository Structure
 
@@ -76,31 +98,40 @@ startup-skill/                         # Plugin namespace (startup:*)
 │       ├── verification-agent.md
 │       ├── pitch-frameworks.md
 │       └── honesty-protocol.md
+├── {founder-stack-skill}/             # e.g. pitch-deck/, cold-outreach/, code-review/ ...
+│   └── SKILL.md                       # Single file, no references/ — 50 skills total, see README.md
 ├── CLAUDE.md
 ├── CONTRIBUTING.md
 ├── LICENSE
 └── README.md
 ```
 
+The 50 Founder Stack skill directories are flat (`{skill-name}/SKILL.md` only) — no `references/` subdirectory, no per-skill workspace. They're intentionally lighter-weight than the Flagship skills.
+
 ## Key Conventions
 
 ### Naming Convention
 
 - **Plugin name** (`startup`): defined in `.claude-plugin/marketplace.json` → becomes the namespace prefix
-- **Skill name** (`startup-design`, `startup-competitors`): defined in `SKILL.md` frontmatter → must match directory name
-- **Command**: `/startup:startup-design`, `/startup:startup-competitors`, `/startup:startup-positioning`, `/startup:startup-pitch` — `plugin-name:skill-name`
-- Future skills go in the same repo as separate directories
+- **Skill name** (e.g. `startup-design`, `pitch-deck`, `code-review`): defined in `SKILL.md` frontmatter → must match directory name
+- **Command**: `/startup:{skill-name}` — `plugin-name:skill-name`, e.g. `/startup:startup-design`, `/startup:pitch-deck`, `/startup:code-review`
+- Every skill directory must be listed in `.claude-plugin/marketplace.json` → `plugins[0].skills` or it won't be installed
+- Future skills go in the same repo as separate top-level directories
 
 ### Skill Format
 
-- `SKILL.md` uses YAML frontmatter with `name` and `description` fields
+- `SKILL.md` uses YAML frontmatter with `name` and `description` fields (required); Founder Stack skills also add `related` (array of related skill names) and `reads` (array of skills this one reads context from, typically `[startup-context]`)
 - `name` must match directory name exactly (lowercase, hyphens)
 - `description` must be 1-1024 characters with trigger phrases
-- Keep `SKILL.md` under 500 lines; move details to `references/`
+- Keep `SKILL.md` under 500 lines; move details to `references/` (Flagship skills only — Founder Stack skills are single-file)
 - References are loaded progressively (only when needed for current phase)
-- Reference files use `research-wave-N-` prefix for consistency across skills
+- Reference files use `research-wave-N-` prefix for consistency across Flagship skills
 
-### Research Architecture
+### Founder Stack Context Sharing
+
+Founder Stack skills share context through a single file, `.agents/startup-context.md`, in the user's project — not through the Flagship skills' `{project-name}/` output directories. `startup-context` creates/updates that file by interviewing the founder (company stage, product, market, team, metrics). Every other Founder Stack skill reads it first before producing output, and prompts the founder to run `startup-context` if the file doesn't exist yet. A skill's `reads:` frontmatter lists which context files it expects.
+
+### Research Architecture (Flagship skills)
 
 **startup-design** Phase 3 uses 4 sequential waves of parallel agents:
 - Wave 1: Market Landscape (3 agents)
@@ -127,7 +158,9 @@ Each wave must complete before the next starts. Agents use WebSearch for real da
 
 **Verification Agent:** All skills run a V1: Verification agent after synthesis. It audits deliverables for consistency, unlabeled claims, and skill-specific coherence. Critical issues pause for user review. See each skill's `references/verification-agent.md`.
 
-### Output Structure
+Founder Stack skills don't run research waves — each is a single-pass skill invoked directly (see the workflow steps in its `SKILL.md`).
+
+### Output Structure (Flagship skills)
 
 **startup-design** generates files in subdirectories:
 - `00-intake/` — Brief, brainstorm, preflight, customer interviews
